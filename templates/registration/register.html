@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Реєстрація — Job Tracker{% endblock %}
+
+{% block content %}
+
+    <div class="jt-auth-wrap">
+        <div class="jt-auth-card">
+
+            <div class="jt-auth-head">
+                <div class="jt-auth-icon">
+                    <i class="bi bi-person-plus-fill"></i>
+                </div>
+                <h2>Створи акаунт</h2>
+                <p class="jt-auth-sub">
+                    Заповни форму — і починай трекати свої відгуки.
+                </p>
+            </div>
+
+            <div class="jt-auth-body">
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    {# username #}
+                    <div class="jt-field {% if form.username.errors %}has-error{% endif %}">
+                        <label for="{{ form.username.id_for_label }}">
+                            {{ form.username.label }}
+                        </label>
+                        <div class="jt-input-group">
+                            {{ form.username }}
+                            <i class="bi bi-person jt-input-icon"></i>
+                        </div>
+                        {% if form.username.errors %}
+                            {{ form.username.errors }}
+                        {% endif %}
+                        {% if form.username.help_text %}
+                            <small class="form-helptext">{{ form.username.help_text|safe }}</small>
+                        {% endif %}
+                    </div>
+
+                    {# password1 #}
+                    <div class="jt-field {% if form.password1.errors %}has-error{% endif %}">
+                        <label for="{{ form.password1.id_for_label }}">
+                            {{ form.password1.label }}
+                        </label>
+                        <div class="jt-input-group">
+                            {{ form.password1 }}
+                            <i class="bi bi-lock jt-input-icon"></i>
+                        </div>
+                        {% if form.password1.errors %}
+                            {{ form.password1.errors }}
+                        {% endif %}
+                        {% if form.password1.help_text %}
+                            <small class="form-helptext">{{ form.password1.help_text|safe }}</small>
+                        {% endif %}
+                    </div>
+
+                    {# password2 #}
+                    <div class="jt-field {% if form.password2.errors %}has-error{% endif %}">
+                        <label for="{{ form.password2.id_for_label }}">
+                            {{ form.password2.label }}
+                        </label>
+                        <div class="jt-input-group">
+                            {{ form.password2 }}
+                            <i class="bi bi-shield-check jt-input-icon"></i>
+                        </div>
+                        {% if form.password2.errors %}
+                            {{ form.password2.errors }}
+                        {% endif %}
+                        {% if form.password2.help_text %}
+                            <small class="form-helptext">{{ form.password2.help_text|safe }}</small>
+                        {% endif %}
+                    </div>
+
+                    {# Будь-які інші поля (раптом форма розширилась) #}
+                    {% for field in form %}
+                        {% if field.name not in "username,password1,password2" %}
+                            <div class="jt-field {% if field.errors %}has-error{% endif %}">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}{{ field.errors }}{% endif %}
+                                {% if field.help_text %}
+                                    <small class="form-helptext">{{ field.help_text|safe }}</small>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary w-100 btn-lg mt-2">
+                        <i class="bi bi-rocket-takeoff me-1"></i>
+                        Створити акаунт
+                    </button>
+                </form>
+
+                <p class="jt-auth-footer">
+                    Уже маєш акаунт?
+                    <a href="{% url 'login' %}">Увійти</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
