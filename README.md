@@ -4,6 +4,7 @@ A Django web app for tracking job applications. Paste a vacancy URL from
 work.ua and the app scrapes the listing, stores it, and lets you manage
 your application status (saved → interview → offer → accepted/rejected).
 
+
 ## Features
 
 - Built-in work.ua scraper — paste URL, get title, company, salary,
