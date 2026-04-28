@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}{{ application.vacancy.title }}{% endblock %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">{{ application.vacancy.title|truncatechars:50 }}</li>
+    </ol>
+</nav>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <span class="badge bg-{{ application.status_color }} mb-2">
+                    {{ application.get_status_display }}
+                </span>
+                <h2 class="fw-bold">{{ application.vacancy.title }}</h2>
+                <p class="text-muted mb-3">
+                    <i class="bi bi-building"></i>
+                    {{ application.vacancy.company.name }}
+                    {% if application.vacancy.location %}
+                        · <i class="bi bi-geo-alt"></i> {{ application.vacancy.location }}
+                    {% endif %}
+                </p>
+
+                {% if application.vacancy.salary_text %}
+                    <p class="mb-2">
+                        <i class="bi bi-cash text-success"></i>
+                        <strong>{{ application.vacancy.salary_text }}</strong>
+                    </p>
+                {% endif %}
+
+                {% if application.vacancy.skills.all %}
+                    <div class="mb-3">
+                        {% for skill in application.vacancy.skills.all %}
+                            <span class="badge bg-light text-dark border me-1">
+                                {{ skill.name }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <a href="{{ application.vacancy.source_url }}"
+                   target="_blank" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-box-arrow-up-right"></i> Відкрити на work.ua
+                </a>
+            </div>
+        </div>
+
+        {% if application.vacancy.description_text %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="fw-bold">Опис вакансії</h5>
+                    <div class="text-muted" style="white-space: pre-wrap;">{{ application.vacancy.description_text }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <h6 class="fw-bold text-uppercase text-muted small mb-3">
+                    Мій трекінг
+                </h6>
+
+                <p class="small mb-2">
+                    <strong>Статус:</strong>
+                    <span class="badge bg-{{ application.status_color }}">{{ application.get_status_display }}</span>
+                </p>
+                <p class="small mb-2">
+                    <strong>Додано:</strong> {{ application.applied_at|date:"d.m.Y H:i" }}
+                </p>
+                <p class="small mb-2">
+                    <strong>Оновлено:</strong> {{ application.updated_at|date:"d.m.Y H:i" }}
+                </p>
+                {% if application.cv_file %}
+                    <p class="small mb-2">
+                        <strong>Резюме:</strong>
+                        <a href="{{ application.cv_file.url }}" target="_blank"
+                           class="text-decoration-none">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            Завантажити PDF
+                        </a>
+                    </p>
+                {% endif %}
+
+                {% if application.notes %}
+                    <hr>
+                    <p class="fw-bold small mb-1">Нотатки:</p>
+                    <p class="small text-muted" style="white-space: pre-wrap;">{{ application.notes }}</p>
+                {% endif %}
+
+                <hr>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'application_edit' application.pk %}"
+                       class="btn btn-primary btn-sm">
+                        <i class="bi bi-pencil"></i> Редагувати
+                    </a>
+                    <a href="{% url 'application_delete' application.pk %}"
+                       class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash"></i> Видалити
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if application.vacancy.hr_name or application.vacancy.phone %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold text-uppercase text-muted small mb-3">
+                        Контакти
+                    </h6>
+                    {% if application.vacancy.hr_name %}
+                        <p class="small mb-1">
+                            <i class="bi bi-person"></i> {{ application.vacancy.hr_name }}
+                        </p>
+                    {% endif %}
+                    {% if application.vacancy.phone %}
+                        <p class="small mb-0">
+                            <i class="bi bi-telephone"></i>
+                            <a href="tel:{{ application.vacancy.phone }}" class="text-decoration-none">
+                                {{ application.vacancy.phone }}
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
