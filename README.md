@@ -49,6 +49,16 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+## Project Structure
+
+```
+config/         Django project settings
+jobs/           Main app (models, views, forms, services, templates)
+  services/     Framework-agnostic scraper and importer
+templates/      Project-level templates (base.html, registration/)
+static/         Static assets (CSS)
+```
+
 Open http://127.0.0.1:8000/ in the browser.
 
 ## Environment Variables
@@ -81,15 +91,6 @@ template.
 | Delete confirmation | ![Delete](screenshots/delete.png) |
 | 404 page | ![404](screenshots/404.png) |
 
-## Project Structure
-
-```
-config/         Django project settings
-jobs/           Main app (models, views, forms, services, templates)
-  services/     Framework-agnostic scraper and importer
-templates/      Project-level templates (base.html, registration/)
-static/         Static assets (CSS)
-```
 
 ## Author
 
