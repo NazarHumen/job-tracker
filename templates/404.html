@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="bg-light min-vh-100 d-flex align-items-center">
+    <div class="container-fluid">
+        <div class="row row-cols-1 justify-content-center py-5">
+            <div class="col-xxl-7 mb-4">
+                <div class="lc-block">
+                    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+                    <lottie-player
+                            src="https://assets9.lottiefiles.com/packages/lf20_u1xuufn3.json"
+                            class="mx-auto" background="transparent" speed="1"
+                            loop="" autoplay=""></lottie-player>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="lc-block">
+                    <a class="btn btn-lg btn-primary" href="{% url 'dashboard' %}" role="button">Back to dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
