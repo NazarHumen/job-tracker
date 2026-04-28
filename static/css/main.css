@@ -1,0 +1,560 @@
+/* =========================================================
+   Job Tracker — main stylesheet
+   Design tokens + Bootstrap polish + custom components.
+   Loaded once from base.html → applies to every template.
+   ========================================================= */
+
+:root {
+    /* Brand palette — indigo/violet, modern but неброско */
+    --jt-primary: #4f46e5;
+    --jt-primary-rgb: 79, 70, 229;
+    --jt-primary-hover: #4338ca;
+    --jt-primary-soft: #eef2ff;
+
+    --jt-accent: #06b6d4;
+    --jt-success: #16a34a;
+    --jt-warning: #d97706;
+    --jt-danger: #dc2626;
+
+    /* Neutrals */
+    --jt-bg: #f6f7fb;
+    --jt-surface: #ffffff;
+    --jt-border: #e5e7eb;
+    --jt-text: #111827;
+    --jt-text-muted: #6b7280;
+
+    /* Elevation */
+    --jt-shadow-sm: 0 1px 2px rgba(17, 24, 39, .04), 0 1px 3px rgba(17, 24, 39, .06);
+    --jt-shadow-md: 0 4px 6px -1px rgba(17, 24, 39, .06), 0 10px 15px -3px rgba(17, 24, 39, .08);
+    --jt-shadow-lg: 0 10px 25px -5px rgba(17, 24, 39, .10), 0 20px 40px -10px rgba(17, 24, 39, .12);
+
+    /* Geometry */
+    --jt-radius: 14px;
+    --jt-radius-sm: 10px;
+    --jt-transition: 180ms cubic-bezier(.4, 0, .2, 1);
+
+    /* Bootstrap variable overrides (Bootstrap 5 reads these) */
+    --bs-primary: var(--jt-primary);
+    --bs-primary-rgb: var(--jt-primary-rgb);
+    --bs-link-color: var(--jt-primary);
+    --bs-link-hover-color: var(--jt-primary-hover);
+    --bs-body-bg: var(--jt-bg);
+    --bs-body-color: var(--jt-text);
+    --bs-border-color: var(--jt-border);
+    --bs-border-radius: var(--jt-radius-sm);
+    --bs-border-radius-lg: var(--jt-radius);
+}
+
+/* ---------- Base ---------- */
+html, body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.005em;
+}
+
+body {
+    background:
+        radial-gradient(1200px 600px at 110% -10%, rgba(79, 70, 229, .08), transparent 60%),
+        radial-gradient(900px 500px at -10% 110%, rgba(6, 182, 212, .06), transparent 60%),
+        var(--jt-bg) !important;
+    color: var(--jt-text);
+    min-height: 100vh;
+}
+
+a { transition: color var(--jt-transition); }
+
+/* Selection */
+::selection { background: rgba(var(--jt-primary-rgb), .18); color: var(--jt-text); }
+
+/* ---------- Navbar ---------- */
+.navbar.bg-dark {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%) !important;
+    box-shadow: var(--jt-shadow-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, .04);
+    backdrop-filter: saturate(140%);
+}
+
+.navbar .navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    background: linear-gradient(90deg, #fff 0%, #c7d2fe 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.navbar .navbar-brand i { color: #a5b4fc; -webkit-text-fill-color: #a5b4fc; }
+
+.navbar-dark .nav-link {
+    color: rgba(255, 255, 255, .8);
+    font-weight: 500;
+    border-radius: 8px;
+    padding: .4rem .85rem !important;
+    margin: 0 .15rem;
+    transition: background-color var(--jt-transition), color var(--jt-transition);
+}
+
+.navbar-dark .nav-link:hover,
+.navbar-dark .nav-link:focus {
+    color: #fff;
+    background: rgba(255, 255, 255, .08);
+}
+
+.navbar .dropdown-menu {
+    border: 1px solid var(--jt-border);
+    border-radius: var(--jt-radius-sm);
+    box-shadow: var(--jt-shadow-md);
+    padding: .35rem;
+}
+
+.navbar .dropdown-item {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.navbar .dropdown-item:hover {
+    background: var(--jt-primary-soft);
+    color: var(--jt-primary-hover);
+}
+
+/* ---------- User menu (navbar dropdown trigger) ---------- */
+.jt-user-menu {
+    display: inline-flex !important;
+    align-items: center;
+    gap: .55rem;
+    padding: .25rem .75rem .25rem .3rem !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .08);
+    transition: background-color var(--jt-transition),
+        border-color var(--jt-transition), transform var(--jt-transition);
+}
+.jt-user-menu::after { display: none !important; } /* прибрати дефолтний caret Bootstrap */
+
+.jt-user-menu:hover,
+.jt-user-menu:focus,
+.jt-user-menu[aria-expanded="true"] {
+    background: rgba(255, 255, 255, .12) !important;
+    border-color: rgba(255, 255, 255, .18);
+    color: #fff !important;
+}
+
+.jt-user-menu .jt-user-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: .92rem;
+    letter-spacing: -0.005em;
+    line-height: 1;
+}
+
+.jt-user-chevron {
+    font-size: .75rem;
+    color: rgba(255, 255, 255, .65);
+    transition: transform var(--jt-transition);
+}
+.jt-user-menu[aria-expanded="true"] .jt-user-chevron {
+    transform: rotate(180deg);
+    color: #fff;
+}
+
+/* Avatar (initial-circle) */
+.jt-user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: .85rem;
+    line-height: 1;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--jt-primary) 0%, var(--jt-accent) 100%);
+    box-shadow: 0 2px 6px rgba(var(--jt-primary-rgb), .35),
+        inset 0 -1px 2px rgba(0, 0, 0, .15);
+    text-transform: uppercase;
+}
+.jt-user-avatar-lg {
+    width: 40px;
+    height: 40px;
+    font-size: 1.05rem;
+}
+
+/* Dropdown panel */
+.jt-user-dropdown {
+    min-width: 240px;
+    padding: .35rem !important;
+}
+
+.jt-user-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .65rem .75rem .65rem .65rem;
+}
+.jt-user-dropdown-text { line-height: 1.2; min-width: 0; }
+.jt-user-dropdown-text .fw-semibold {
+    color: var(--jt-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 160px;
+}
+
+/* На малих екранах ховаємо ім'я — лишаємо тільки аватар + chevron */
+@media (max-width: 575.98px) {
+    .jt-user-menu .jt-user-name { display: none; }
+    .jt-user-menu { padding: .2rem .5rem .2rem .25rem !important; }
+}
+
+/* ---------- Cards ---------- */
+.card {
+    border: 1px solid var(--jt-border) !important;
+    border-radius: var(--jt-radius);
+    background: var(--jt-surface);
+    box-shadow: var(--jt-shadow-sm);
+    transition: box-shadow var(--jt-transition), transform var(--jt-transition),
+        border-color var(--jt-transition);
+}
+
+.card.shadow-sm { box-shadow: var(--jt-shadow-sm) !important; }
+
+/* Hover-able cards (used on dashboard list) */
+.card-hover { cursor: pointer; }
+.card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--jt-shadow-lg) !important;
+    border-color: rgba(var(--jt-primary-rgb), .35) !important;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    border-radius: var(--jt-radius-sm);
+    transition: transform var(--jt-transition), box-shadow var(--jt-transition),
+        background-color var(--jt-transition), border-color var(--jt-transition),
+        color var(--jt-transition);
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn-lg { padding: .75rem 1.4rem; font-size: 1rem; }
+
+.btn-primary {
+    background: var(--jt-primary);
+    border-color: var(--jt-primary);
+    box-shadow: 0 1px 2px rgba(var(--jt-primary-rgb), .25);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: var(--jt-primary-hover);
+    border-color: var(--jt-primary-hover);
+    box-shadow: 0 6px 16px rgba(var(--jt-primary-rgb), .35);
+}
+
+.btn-outline-primary {
+    color: var(--jt-primary);
+    border-color: rgba(var(--jt-primary-rgb), .55);
+}
+.btn-outline-primary:hover {
+    background: var(--jt-primary);
+    border-color: var(--jt-primary);
+    color: #fff;
+}
+
+.btn-outline-secondary {
+    color: var(--jt-text);
+    border-color: var(--jt-border);
+    background: var(--jt-surface);
+}
+.btn-outline-secondary:hover {
+    background: var(--jt-text);
+    border-color: var(--jt-text);
+    color: #fff;
+}
+
+.btn-outline-light:hover { color: var(--jt-primary); }
+
+.btn-outline-danger { border-color: rgba(220, 38, 38, .45); }
+
+/* ---------- Forms ---------- */
+.form-label { font-weight: 600; color: var(--jt-text); margin-bottom: .35rem; }
+
+.form-control,
+.form-select,
+/* Голі Django-інпути теж стилізуємо однаково — для form.as_p та ручного рендеру */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="url"],
+form input[type="number"],
+form input[type="search"],
+form input[type="tel"],
+form textarea {
+    border: 1px solid var(--jt-border);
+    border-radius: var(--jt-radius-sm);
+    padding: .6rem .85rem;
+    background: var(--jt-surface);
+    color: var(--jt-text);
+    width: 100%;
+    font-size: 1rem;
+    line-height: 1.4;
+    transition: border-color var(--jt-transition), box-shadow var(--jt-transition);
+}
+
+.form-control:focus,
+.form-select:focus,
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form input[type="url"]:focus,
+form input[type="number"]:focus,
+form input[type="search"]:focus,
+form input[type="tel"]:focus,
+form textarea:focus {
+    border-color: var(--jt-primary);
+    box-shadow: 0 0 0 4px rgba(var(--jt-primary-rgb), .15);
+    outline: none;
+}
+
+textarea.form-control,
+form textarea { min-height: 120px; }
+
+.form-text { color: var(--jt-text-muted); }
+
+/* Django errorlist (рендериться формами автоматично) */
+.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: .25rem 0 .5rem 0;
+    font-size: .85rem;
+    color: var(--jt-danger);
+}
+.errorlist li { display: block; padding: .15rem 0; }
+
+/* Django helptext */
+.helptext,
+.form-helptext {
+    display: block;
+    margin-top: .35rem;
+    font-size: .8rem;
+    color: var(--jt-text-muted);
+    line-height: 1.45;
+}
+.helptext ul {
+    margin: .25rem 0 0 1rem;
+    padding: 0;
+    list-style: disc;
+}
+.helptext li { margin: .1rem 0; }
+
+/* Form field з input-group іконкою */
+.jt-field { margin-bottom: 1rem; }
+.jt-field label { font-weight: 600; color: var(--jt-text); margin-bottom: .35rem; display: block; }
+
+.jt-input-group {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+}
+.jt-input-group .jt-input-icon {
+    position: absolute;
+    left: .9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--jt-text-muted);
+    pointer-events: none;
+    font-size: 1rem;
+    z-index: 2;
+}
+.jt-input-group input { padding-left: 2.5rem !important; }
+.jt-input-group input:focus + .jt-input-icon,
+.jt-input-group:focus-within .jt-input-icon { color: var(--jt-primary); }
+
+/* Field-level error state */
+.jt-field.has-error input,
+.jt-field.has-error textarea {
+    border-color: var(--jt-danger) !important;
+    background: #fef2f2;
+}
+.jt-field.has-error input:focus,
+.jt-field.has-error textarea:focus {
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, .15) !important;
+}
+
+/* ---------- Badges ---------- */
+.badge {
+    font-weight: 600;
+    letter-spacing: .01em;
+    padding: .4em .7em;
+    border-radius: 999px;
+}
+
+.badge.bg-primary { background: var(--jt-primary) !important; }
+
+.badge.bg-secondary {
+    background: #eef2f7 !important;
+    color: #475569 !important;
+}
+
+.badge.bg-light.text-dark.border {
+    background: var(--jt-primary-soft) !important;
+    color: var(--jt-primary-hover) !important;
+    border: 1px solid rgba(var(--jt-primary-rgb), .25) !important;
+}
+
+/* ---------- Alerts ---------- */
+.alert {
+    border: 1px solid transparent;
+    border-radius: var(--jt-radius-sm);
+    box-shadow: var(--jt-shadow-sm);
+}
+.alert-info { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+.alert-success { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+.alert-warning { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+.alert-danger,
+.alert-error { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+
+/* ---------- Breadcrumb ---------- */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+}
+.breadcrumb-item a { color: var(--jt-text-muted); font-weight: 500; }
+.breadcrumb-item a:hover { color: var(--jt-primary); }
+.breadcrumb-item.active { color: var(--jt-text); font-weight: 500; }
+.breadcrumb-item + .breadcrumb-item::before { color: #cbd5e1; }
+
+/* ---------- Headings ---------- */
+h1, h2, h3, h4, h5, h6 { color: var(--jt-text); letter-spacing: -0.015em; }
+.display-3, .display-5 { letter-spacing: -0.03em; }
+
+/* Hero icon на анонімній головній */
+.display-3 .bi-briefcase-fill {
+    background: linear-gradient(135deg, var(--jt-primary) 0%, var(--jt-accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 6px 18px rgba(var(--jt-primary-rgb), .35));
+}
+
+/* ---------- Auth card (login / register) ---------- */
+.jt-auth-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 220px);
+    padding: 1rem 0;
+}
+
+.jt-auth-card {
+    width: 100%;
+    max-width: 460px;
+    border-radius: var(--jt-radius);
+    background: var(--jt-surface);
+    border: 1px solid var(--jt-border);
+    box-shadow: var(--jt-shadow-lg);
+    overflow: hidden;
+}
+
+.jt-auth-card .jt-auth-head {
+    padding: 2rem 2rem 1.25rem;
+    text-align: center;
+    background:
+        radial-gradient(600px 200px at 50% -50%, rgba(var(--jt-primary-rgb), .18), transparent 70%),
+        linear-gradient(180deg, #fafbff 0%, var(--jt-surface) 100%);
+    border-bottom: 1px solid var(--jt-border);
+}
+
+.jt-auth-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    margin: 0 auto .9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, var(--jt-primary) 0%, var(--jt-accent) 100%);
+    box-shadow: 0 10px 24px rgba(var(--jt-primary-rgb), .35),
+        inset 0 -2px 4px rgba(0, 0, 0, .12);
+}
+
+.jt-auth-card h2 {
+    font-weight: 700;
+    margin-bottom: .35rem;
+    letter-spacing: -0.02em;
+}
+
+.jt-auth-card .jt-auth-sub {
+    color: var(--jt-text-muted);
+    font-size: .92rem;
+    margin: 0;
+}
+
+.jt-auth-body { padding: 1.75rem 2rem 2rem; }
+
+.jt-auth-footer {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: .9rem;
+    color: var(--jt-text-muted);
+}
+.jt-auth-footer a {
+    color: var(--jt-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+.jt-auth-footer a:hover { color: var(--jt-primary-hover); text-decoration: underline; }
+
+@media (max-width: 575.98px) {
+    .jt-auth-card .jt-auth-head { padding: 1.5rem 1.25rem 1rem; }
+    .jt-auth-body { padding: 1.25rem; }
+}
+
+/* ---------- Footer ---------- */
+footer.bg-dark {
+    background: linear-gradient(180deg, #0f172a 0%, #020617 100%) !important;
+    border-top: 1px solid rgba(255, 255, 255, .04);
+}
+
+/* ---------- Empty state (інбокс-icon на дашборді) ---------- */
+.bi-inbox.display-1 {
+    color: #cbd5e1 !important;
+    filter: drop-shadow(0 6px 16px rgba(15, 23, 42, .08));
+}
+
+/* ---------- Scrollbar (Webkit) ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 999px;
+    border: 2px solid var(--jt-bg);
+}
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ---------- Utilities ---------- */
+.text-muted { color: var(--jt-text-muted) !important; }
+
+hr { border-color: var(--jt-border); opacity: 1; }
+
+/* Smooth fade-in for main content */
+main { animation: jt-fade-in 240ms ease-out; }
+@keyframes jt-fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Mobile tweaks ---------- */
+@media (max-width: 575.98px) {
+    .display-3 { font-size: 2.5rem; }
+    .display-5 { font-size: 2rem; }
+    .card-body.p-5 { padding: 1.5rem !important; }
+}
