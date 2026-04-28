@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Додати вакансію{% endblock %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Додати вручну</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+
+        <h1 class="fw-bold mb-4">
+            <i class="bi bi-plus-circle text-primary"></i> Додати вакансію
+        </h1>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+
+                <p class="text-muted small mb-4">
+                    Заповни поля вручну — для вакансій не з work.ua або коли
+                    парсер не справляється.
+                </p>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
+                                {{ field.label }}
+                                {% if field.field.required %}
+                                    <span class="text-danger">*</span>
+                                {% endif %}
+                            </label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg"></i> Створити
+                        </button>
+                        <a href="{% url 'dashboard' %}"
+                           class="btn btn-outline-secondary">
+                            Скасувати
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
