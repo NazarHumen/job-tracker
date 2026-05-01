@@ -286,16 +286,7 @@ a { transition: color var(--jt-transition); }
 .form-label { font-weight: 600; color: var(--jt-text); margin-bottom: .35rem; }
 
 .form-control,
-.form-select,
-/* Голі Django-інпути теж стилізуємо однаково — для form.as_p та ручного рендеру */
-form input[type="text"],
-form input[type="email"],
-form input[type="password"],
-form input[type="url"],
-form input[type="number"],
-form input[type="search"],
-form input[type="tel"],
-form textarea {
+.form-select {
     border: 1px solid var(--jt-border);
     border-radius: var(--jt-radius-sm);
     padding: .6rem .85rem;
@@ -308,22 +299,13 @@ form textarea {
 }
 
 .form-control:focus,
-.form-select:focus,
-form input[type="text"]:focus,
-form input[type="email"]:focus,
-form input[type="password"]:focus,
-form input[type="url"]:focus,
-form input[type="number"]:focus,
-form input[type="search"]:focus,
-form input[type="tel"]:focus,
-form textarea:focus {
+.form-select:focus {
     border-color: var(--jt-primary);
     box-shadow: 0 0 0 4px rgba(var(--jt-primary-rgb), .15);
     outline: none;
 }
 
-textarea.form-control,
-form textarea { min-height: 120px; }
+textarea.form-control { min-height: 120px; }
 
 .form-text { color: var(--jt-text-muted); }
 
