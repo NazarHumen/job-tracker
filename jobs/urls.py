@@ -14,5 +14,5 @@ urlpatterns = [
          name="application_edit"),
     path("applications/<int:pk>/delete/", views.application_delete,
          name="application_delete"),
-    path('404/', views.custom_page_not_found, {'exception': Exception()}),
+
 ]

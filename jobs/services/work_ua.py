@@ -112,7 +112,7 @@ class WorkUaParser:
         """Company name is in <span class="strong-500"> inside the company link."""
         span = soup.select_one('a[href^="/jobs/by-company/"] span.strong-500')
         if not span:
-            return ""
+            raise WorkUaParseError("Company name not found")
         return span.get_text(strip=True)
 
     def _parse_company_url(self, soup: BeautifulSoup) -> str:

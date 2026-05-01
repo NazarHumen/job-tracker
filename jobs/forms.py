@@ -2,14 +2,21 @@ from urllib.parse import urlparse
 from uuid import uuid4
 
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import User
 from django.db import transaction
 
 from .models import Application, Company, Skill, Vacancy
 
 
-class ApplicationForm(forms.ModelForm):
+def validate_cv_size(cv_file):
     MAX_CV_SIZE = 5 * 1024 * 1024
+    if cv_file and hasattr(cv_file, "size") and cv_file.size > MAX_CV_SIZE:
+        raise forms.ValidationError("Файл занадто великий (макс. 5 МБ).")
+    return cv_file
 
+
+class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = ["status", "notes", "cv_file"]
@@ -35,16 +42,10 @@ class ApplicationForm(forms.ModelForm):
         }
 
     def clean_cv_file(self):
-        cv_file = self.cleaned_data.get("cv_file")
-        if cv_file and hasattr(cv_file,
-                               "size") and cv_file.size > self.MAX_CV_SIZE:
-            raise forms.ValidationError("Файл занадто великий (макс. 5 МБ).")
-        return cv_file
+        return validate_cv_size(self.cleaned_data.get("cv_file"))
 
 
 class VacancyApplicationCreateForm(forms.Form):
-    MAX_CV_SIZE = 5 * 1024 * 1024
-
     title = forms.CharField(
         max_length=255,
         label="Назва вакансії",
@@ -130,10 +131,7 @@ class VacancyApplicationCreateForm(forms.Form):
         return [s.strip() for s in raw.split(",") if s.strip()]
 
     def clean_cv_file(self):
-        cv_file = self.cleaned_data.get("cv_file")
-        if cv_file and hasattr(cv_file,
-                               "size") and cv_file.size > self.MAX_CV_SIZE:
-            raise forms.ValidationError("Файл занадто великий (макс. 5 МБ).")
+        cv_file = validate_cv_size(self.cleaned_data.get("cv_file"))
         if cv_file and not cv_file.name.lower().endswith(".pdf"):
             raise forms.ValidationError("Дозволено лише PDF.")
         return cv_file
@@ -206,3 +204,19 @@ class ImportVacancyForm(forms.Form):
             )
 
         return url
+
+class RegisterForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class LoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'

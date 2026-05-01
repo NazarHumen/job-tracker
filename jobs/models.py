@@ -80,23 +80,9 @@ class Application(models.Model):
         validators=[FileExtensionValidator(allowed_extensions=["pdf"])],
     )
 
-    STATUS_COLORS = {
-        Status.SAVED: "secondary",
-        Status.INTERVIEW: "info",
-        Status.TEST_TASK: "primary",
-        Status.OFFER: "warning",
-        Status.ACCEPTED: "success",
-        Status.REJECTED: "danger",
-        Status.WITHDRAWN: "dark",
-    }
-
     class Meta:
         ordering = ['-updated_at']
         unique_together = ['user', 'vacancy']
 
     def __str__(self):
         return f"{self.user.username} - {self.vacancy.title} ({self.get_status_display()})"
-
-    @property
-    def status_color(self):
-        return self.STATUS_COLORS.get(self.status, "secondary")
